@@ -494,7 +494,7 @@ p {
       </button>
 
       <button class="btn btn-no" id="no1">
-        Nein 🙃
+        Nein
       </button>
 
     </div>
@@ -554,7 +554,7 @@ p {
       </button>
 
       <button class="btn btn-no" id="no2">
-        Nein 🙃
+        Nein
       </button>
 
     </div>
@@ -798,38 +798,23 @@ function makeButtonEscape(id) {
 
   const button = document.getElementById(id);
 
-  function escapeButton(event) {
+  function escapeButton() {
+    // Der Button weicht nur ein kleines Stück aus und bleibt
+    // direkt neben seiner ursprünglichen Position erreichbar.
+    const offsetX = (Math.random() * 16) - 8;
+    const offsetY = (Math.random() * 12) - 6;
 
-    if (event) event.preventDefault();
-
-    const maxX = Math.max(
-      10,
-      window.innerWidth - button.offsetWidth - 15
-    );
-
-    const maxY = Math.max(
-      10,
-      window.innerHeight - button.offsetHeight - 15
-    );
-
-    button.style.position = 'fixed';
-
-    button.style.left =
-      (10 + Math.random() * (maxX - 10)) + 'px';
-
-    button.style.top =
-      (10 + Math.random() * (maxY - 10)) + 'px';
-
-    button.style.zIndex = '30';
+    button.style.transform =
+      `translate(${offsetX}px, ${offsetY}px)`;
   }
 
-  button.addEventListener('pointerenter', escapeButton);
-
-  button.addEventListener('touchstart', escapeButton, {
-    passive: false
+  // Nur bei Maus-Hover leicht ausweichen.
+  // Auf Touch-Geräten bleibt der Button vollständig an seinem Platz.
+  button.addEventListener('pointerenter', (event) => {
+    if (event.pointerType === 'mouse') {
+      escapeButton();
+    }
   });
-
-  button.addEventListener('click', escapeButton);
 }
 
 makeButtonEscape('no1');
